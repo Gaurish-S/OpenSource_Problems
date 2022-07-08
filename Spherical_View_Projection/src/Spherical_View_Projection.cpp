@@ -28,16 +28,12 @@ SphericalConversion::SphericalConversion(const Configuration& config)
                               config_.img_length, std::vector<double>(5, 0.0)));
     cloud_ = pcl::PointCloud<pcl::PointXYZI>::Ptr(
         new pcl::PointCloud<pcl::PointXYZI>);
-};
-
-int SphericalConversion::LoadCloud(const std::string& path) {
-    // Loading from Bin File
-    if (pcl::io::loadPCDFile<pcl::PointXYZI>(path, *cloud_) == -1) {
-        std::cout << "Couldn't read the cloud file at: " << path << "\n";
-        return -1;
-    }
-    return 1;
 }
+
+void SphericalConversion::LoadCloud(pcl::PointCloud<pcl::PointXYZI>::Ptr cloud) {
+    cloud_ = cloud;
+}
+
 int SphericalConversion::MakeImage() {
     // Converting to Radians
     double fov_up_rad = (config_.fov_up / 180) * M_PI;
@@ -88,7 +84,7 @@ void SphericalConversion::GetProjection(const pcl::PointXYZI& point,
     *pixel_u = int(u);
 }
 
-auto SphericalConversion::GetImg() const { return spherical_img_; }
+std::vector<std::vector<std::vector<double>>> SphericalConversion::GetImg() const { return spherical_img_; }
 
 void SphericalConversion::ShowImg(
     const std::vector<std::vector<std::vector<double>>>& img) const {
@@ -102,22 +98,22 @@ void SphericalConversion::ShowImg(
     cv::waitKey(0);
 }
 
-int main() {
-    /** For Velodyne HDL 64-E
-     * Fov_Up = 2 degrees
-     * Fov_Down = -24.8 degrees
-     * Num of Lasers = 64
-     * Best length of image comes out to be = 1024
-     */
-    const Configuration config_input{2, -24.8, 64, 1024};
-    const std::string path =
-        "/home/" + std::string(getenv("USER")) +
-        "/OpenSource_Problems/Spherical_View_Projection/assests/"
-        "test_cloud.pcd";
-    std::cout << path << std::endl;
-    SphericalConversion conv(config_input);
-    conv.LoadCloud(path);
-    conv.MakeImage();
-    auto img = conv.GetImg();
-    conv.ShowImg(img);
-}
+// int main() {
+//     /** For Velodyne HDL 64-E
+//      * Fov_Up = 2 degrees
+//      * Fov_Down = -24.8 degrees
+//      * Num of Lasers = 64
+//      * Best length of image comes out to be = 1024
+//      */
+//     // const Configuration config_input{2, -24.8, 64, 1024};
+//     // const std::string path =
+//     //     "/home/" + std::string(getenv("USER")) +
+//     //     "/OpenSource_Problems/Spherical_View_Projection/assests/"
+//     //     "test_cloud.pcd";
+//     // std::cout << path << std::endl;
+//     // SphericalConversion conv(config_input);
+//     // conv.LoadCloud(path);
+//     // conv.MakeImage();
+//     // auto img = conv.GetImg();
+//     // conv.ShowImg(img);
+// }

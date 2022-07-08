@@ -12,8 +12,13 @@ link_directories(${PCL_LIBRARY_DIRS})
 
 add_definitions(${PCL_DEFINITIONS})
 
-add_executable(spherical_node src/Spherical_View_Projection.cpp)
+add_library(spherical_deps
+    src/Spherical_View_Projection.cpp
+)
 
-target_link_libraries(spherical_node ${PCL_LIBRARIES} ${OpenCV_LIBS})
+# add_executable(spherical_node src/Spherical_View_Projection.cpp)
+
+# target_link_libraries(spherical_node ${PCL_LIBRARIES} ${OpenCV_LIBS})
+target_link_libraries(spherical_deps ${PCL_LIBRARIES} ${OpenCV_LIBS})
 
 

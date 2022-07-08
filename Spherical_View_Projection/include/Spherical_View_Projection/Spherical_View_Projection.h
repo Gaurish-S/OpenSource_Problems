@@ -63,7 +63,7 @@ class SphericalConversion {
    * @return -1 The path is invalid
    * @return 1 Cloud Loaded Successfully
    */
-  int LoadCloud(const std::string& path);
+  void LoadCloud(pcl::PointCloud<pcl::PointXYZI>::Ptr cloud);
   /**
    * @brief Function to iterate over each point of cloud and make the projection
    * image.
@@ -92,7 +92,7 @@ class SphericalConversion {
    *
    * @return auto
    */
-  auto GetImg() const;
+  std::vector<std::vector<std::vector<double>>> GetImg() const;
   /**
    * @brief Use OpenCv to view the spherical image formed
    *
