@@ -95,7 +95,7 @@ void SphericalConversion::ShowImg(
         }
     }
     cv::imshow("Intensity Image", sp_img);
-    cv::waitKey(0);
+    cv::waitKey(30);
 }
 
 // int main() {
